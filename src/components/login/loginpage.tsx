@@ -1,35 +1,56 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { MoonStar, SunMedium } from "lucide-react";
 import "@/styles/loginpage.css";
 
+type AuthMode = "signin" | "signup";
+type ThemeMode = "day" | "night";
+
 export default function LoginPage() {
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<AuthMode>("signup");
+  const [theme, setTheme] = useState<ThemeMode>("day");
+
   const isSignIn = mode === "signin";
+  const isNight = theme === "night";
 
   return (
-    <main className="login-page">
-      <section className="login-card">
-        <div className="login-left">
-          {/* Put your image inside public folder and update src here */}
-          <img
-            className="login-illustration"
-            src="/login-illustration.png"
-            alt={isSignIn ? "Sign in illustration" : "Sign up illustration"}
-          />
-        </div>
+    <main className={`login-page ${isNight ? "night-mode" : "day-mode"}`}>
+      <section className="login-left">
+        {/* Put your image inside public folder and update src here */}
+        <img
+          className="login-illustration"
+          src="/logo/ledtimg.png"
+          alt={isSignIn ? "Sign in illustration" : "Sign up illustration"}
+        />
+      </section>
 
-        <div className="login-right">
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={theme}
+          className={`theme-bg ${theme}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.45, ease: "easeInOut" }}
+        />
+      </AnimatePresence>
+
+      <section className="login-right">
+        <div className="auth-card">
+          <ThemeToggle theme={theme} setTheme={setTheme} />
+
           <div className="form-box">
             {isSignIn ? (
               <SignInSection
-                onSwitch={() => setMode("signup")}
                 setMode={setMode}
+                onSwitch={() => setMode("signup")}
               />
             ) : (
               <SignUpSection
-                onSwitch={() => setMode("signin")}
                 setMode={setMode}
+                onSwitch={() => setMode("signin")}
               />
             )}
           </div>
@@ -39,15 +60,99 @@ export default function LoginPage() {
   );
 }
 
-function SignInSection({
-  onSwitch,
-  setMode,
+function ThemeToggle({
+  theme,
+  setTheme,
 }: {
+  theme: ThemeMode;
+  setTheme: (theme: ThemeMode) => void;
+}) {
+  const isNight = theme === "night";
+
+  return (
+    <button
+      type="button"
+      className="theme-toggle"
+      aria-label={isNight ? "Switch to day mode" : "Switch to night mode"}
+      onClick={() => setTheme(isNight ? "day" : "night")}
+    >
+      <span className="theme-label">{isNight ? "Night" : "Day"}</span>
+
+      <span className="theme-track">
+        <motion.span
+          className="theme-thumb"
+          layout
+          transition={{ type: "spring", stiffness: 450, damping: 30 }}
+        >
+          <motion.span
+            key={theme}
+            initial={{ rotate: -90, scale: 0.45, opacity: 0 }}
+            animate={{ rotate: 0, scale: 1, opacity: 1 }}
+            exit={{ rotate: 90, scale: 0.45, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            {isNight ? (
+              <MoonStar className="theme-icon moon-icon" strokeWidth={2.4} />
+            ) : (
+              <SunMedium className="theme-icon sun-icon" strokeWidth={2.4} />
+            )}
+          </motion.span>
+        </motion.span>
+      </span>
+    </button>
+  );
+}
+
+function SignUpSection({
+  setMode,
+  onSwitch,
+}: {
+  setMode: (mode: AuthMode) => void;
   onSwitch: () => void;
-  setMode: (mode: "signin" | "signup") => void;
 }) {
   return (
-    <>
+    <div className="auth-section">
+      <h1>Sign Up</h1>
+      <p className="subtitle">Create your account to get started.</p>
+
+      <AuthTabs active="signup" setMode={setMode} />
+
+      <form>
+        <div className="name-row">
+          <input type="text" placeholder="First Name" />
+          <input type="text" placeholder="Last Name" />
+        </div>
+
+        <input type="email" placeholder="Email" />
+        <input type="password" placeholder="Password" />
+        <input type="password" placeholder="Confirm Password" />
+
+        <button type="submit" className="primary-btn">
+          Register
+        </button>
+      </form>
+
+      <SocialLogin title="Or Sign Up with" action="Sign up" />
+
+      <p className="switch-text">
+        Already have an account?{" "}
+        <button type="button" onClick={onSwitch}>
+          Sign In
+        </button>
+      </p>
+    </div>
+  );
+}
+
+function SignInSection({
+  setMode,
+  onSwitch,
+}: {
+  setMode: (mode: AuthMode) => void;
+  onSwitch: () => void;
+}) {
+  return (
+    <div className="auth-section">
       <h1>Sign In</h1>
       <p className="subtitle">Welcome back! Please login to your account.</p>
 
@@ -81,48 +186,7 @@ function SignInSection({
           Sign Up
         </button>
       </p>
-    </>
-  );
-}
-
-function SignUpSection({
-  onSwitch,
-  setMode,
-}: {
-  onSwitch: () => void;
-  setMode: (mode: "signin" | "signup") => void;
-}) {
-  return (
-    <>
-      <h1>Sign Up</h1>
-      <p className="subtitle">Create your account to get started.</p>
-
-      <AuthTabs active="signup" setMode={setMode} />
-
-      <form>
-        <div className="name-row">
-          <input type="text" placeholder="First Name" />
-          <input type="text" placeholder="Last Name" />
-        </div>
-
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <input type="password" placeholder="Confirm Password" />
-
-        <button type="submit" className="primary-btn">
-          Register
-        </button>
-      </form>
-
-      <SocialLogin title="Or Sign Up with" action="Sign up" />
-
-      <p className="switch-text">
-        Already have an account?{" "}
-        <button type="button" onClick={onSwitch}>
-          Sign In
-        </button>
-      </p>
-    </>
+    </div>
   );
 }
 
@@ -130,25 +194,25 @@ function AuthTabs({
   active,
   setMode,
 }: {
-  active: "signin" | "signup";
-  setMode: (mode: "signin" | "signup") => void;
+  active: AuthMode;
+  setMode: (mode: AuthMode) => void;
 }) {
   return (
     <div className="auth-tabs">
-      <button
-        type="button"
-        className={active === "signin" ? "active" : ""}
-        onClick={() => setMode("signin")}
-      >
-        Sign In
-      </button>
-
       <button
         type="button"
         className={active === "signup" ? "active" : ""}
         onClick={() => setMode("signup")}
       >
         Sign Up
+      </button>
+
+      <button
+        type="button"
+        className={active === "signin" ? "active" : ""}
+        onClick={() => setMode("signin")}
+      >
+        Sign In
       </button>
     </div>
   );
@@ -214,7 +278,11 @@ function GoogleIcon() {
 
 function GithubIcon() {
   return (
-    <svg className="social-icon github-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <svg
+      className="social-icon github-icon"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
       <path d="M12 .5A11.5 11.5 0 0 0 8.4 22.9c.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2A11 11 0 0 1 12 6c1 0 2 .1 2.9.4 2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.1c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z" />
     </svg>
   );
