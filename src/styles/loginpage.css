@@ -1,208 +1,371 @@
-/* ============================================
-   Basic Split Layout Structure
-   ============================================ */
-
-.login-wrapper {
-  display: flex;
-  height: 100vh;
-  width: 100%;
+* {
+  box-sizing: border-box;
 }
 
-/* ============================================
-   Left Side - Image Section
-   ============================================ */
-.left-section {
-  flex: 1;
-  position: relative;
-  background-color: #f0f0f0; /* Image load nahi ho toh grey dikhe */
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #f8fafc;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 1080px;
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e3e7ef;
+  border-radius: 0;
+  box-shadow: 0 12px 28px rgba(18, 39, 76, 0.08);
+}
+
+.login-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #ffffff;
   overflow: hidden;
 }
 
-.left-image {
+.login-illustration {
   width: 100%;
   height: 100%;
+  display: block;
   object-fit: cover;
   object-position: center;
 }
 
-.left-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 40px;
-  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-  color: white;
-}
-
-.left-overlay h2 {
-  margin: 0 0 8px 0;
-  font-size: 28px;
-  font-weight: 700;
-}
-
-.left-overlay p {
-  margin: 0;
-  font-size: 16px;
-  opacity: 0.9;
-}
-
-/* ============================================
-   Right Side - Form Section
-   ============================================ */
-.right-section {
-  flex: 1;
+.login-right {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
-  padding: 40px;
+  padding: 34px 46px;
+  border-left: 1px solid #e3e7ef;
+  background: #ffffff;
 }
 
-.form-container {
+.form-box {
   width: 100%;
-  max-width: 400px;
+  max-width: 430px;
 }
 
-.form-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #111827;
-  margin: 0 0 8px 0;
-}
-
-.form-subtitle {
-  font-size: 15px;
-  color: #6b7280;
-  margin: 0 0 30px 0;
-}
-
-/* ============================================
-   Tab Switcher
-   ============================================ */
-.tab-switcher {
-  display: flex;
-  border-bottom: 2px solid #e5e7eb;
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
   margin-bottom: 24px;
+  padding: 5px;
+  border: 1px solid #d8dde8;
+  border-radius: 10px;
+  background: #f8fafc;
 }
 
-.tab-btn {
-  background: none;
-  border: none;
+.auth-tabs button {
+  height: 42px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #263d62;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-tabs button.active {
+  background: #106eea;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(13, 105, 225, 0.18);
+}
+
+.form-box h1 {
+  margin: 0 0 14px;
+  text-align: center;
+  color: #102b54;
+  font-size: 36px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.subtitle {
+  margin: 0 0 18px;
+  text-align: center;
+  color: #263d62;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+form {
+  display: grid;
+  gap: 14px;
+}
+
+.name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1.5px solid #cfd6e2;
+  border-radius: 8px;
+  outline: none;
+  background: #ffffff;
+  color: #12284c;
+  font-size: 16px;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(18, 38, 74, 0.06);
+}
+
+input::placeholder {
+  color: #263a5f;
+  opacity: 1;
+}
+
+input:focus {
+  border-color: #1673e8;
+  box-shadow: 0 0 0 3px rgba(22, 115, 232, 0.12);
+}
+
+.form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 2px 0 4px;
+}
+
+.remember-me {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #263d62;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.remember-me input {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border-radius: 4px;
+  accent-color: #106eea;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.forgot-link {
+  color: #116fdc;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.primary-btn {
+  width: 100%;
+  height: 52px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 8px;
+  color: #ffffff;
+  background: #106eea;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(13, 105, 225, 0.22);
+}
+
+.primary-btn:hover {
+  background: #0d63d5;
+}
+
+.divider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0 16px;
+}
+
+.divider span {
+  height: 1px;
+  background: #d7dde8;
+}
+
+.divider p {
+  margin: 0;
+  color: #142d53;
   font-size: 16px;
   font-weight: 600;
-  padding: 8px 16px;
-  cursor: pointer;
-  color: #9ca3af;
-  position: relative;
-  transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
-.tab-btn.active {
-  color: #111827;
+.social-buttons {
+  display: grid;
+  gap: 12px;
 }
 
-.tab-btn.active::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: #111827;
-}
-
-/* ============================================
-   Form Elements
-   ============================================ */
-.login-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.input-group label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #374151;
-}
-
-.input-group input {
+.social-btn {
   width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  font-size: 14px;
-  color: #111827;
-  outline: none;
-  transition: border-color 0.2s ease;
-  box-sizing: border-box;
-}
-
-.input-group input:focus {
-  border-color: #111827;
-}
-
-.input-group input::placeholder {
-  color: #9ca3af;
-}
-
-/* Forgot Password */
-.forgot-password {
-  text-align: right;
-  margin-top: -8px;
-}
-
-.forgot-password a {
-  font-size: 13px;
-  color: #6b7280;
-  text-decoration: none;
-}
-
-.forgot-password a:hover {
-  color: #111827;
-}
-
-/* Submit Button */
-.submit-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: #111827;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  font-size: 15px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1.5px solid #d8dde8;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #152d55;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin-top: 8px;
+  box-shadow: 0 1px 4px rgba(18, 38, 74, 0.06);
 }
 
-.submit-btn:hover {
-  background-color: #1f2937;
+.social-btn:hover {
+  border-color: #bfc8d8;
+  background: #fbfdff;
 }
 
-/* ============================================
-   Responsive Design (Mobile ke liye)
-   ============================================ */
-@media (max-width: 768px) {
-  .login-wrapper {
+.social-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.github-icon {
+  fill: #12284c;
+}
+
+.switch-text {
+  margin: 30px 0 0;
+  text-align: center;
+  color: #263d62;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.switch-text button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #116fdc;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.switch-text button:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .login-card {
+    max-width: 520px;
+    min-height: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .login-left {
+    min-height: 320px;
+    padding: 0;
+  }
+
+  .login-illustration {
+    width: 100%;
+    height: 100%;
+  }
+
+  .login-right {
+    border-left: 0;
+    padding: 30px 28px 36px;
+  }
+}
+
+@media (max-width: 520px) {
+  .login-page {
+    padding: 14px;
+  }
+
+  .login-card {
+    border-radius: 0;
+  }
+
+  .login-left {
+    min-height: 260px;
+    padding: 0;
+  }
+
+  .login-right {
+    padding: 26px 18px 30px;
+  }
+
+  .auth-tabs {
+    margin-bottom: 22px;
+  }
+
+  .form-box h1 {
+    font-size: 32px;
+  }
+
+  .subtitle {
+    margin-bottom: 18px;
+    font-size: 15px;
+  }
+
+  .name-row {
+    grid-template-columns: 1fr;
+  }
+
+  input {
+    height: 46px;
+    font-size: 15px;
+  }
+
+  .form-options {
+    align-items: flex-start;
     flex-direction: column;
+    gap: 8px;
   }
 
-  .left-section {
-    height: 30vh; /* Mobile par image choti ho jayegi */
-    flex: none;
+  .remember-me,
+  .forgot-link {
+    font-size: 14px;
   }
 
-  .right-section {
-    flex: 1;
-    padding: 24px;
+  .primary-btn,
+  .social-btn {
+    height: 48px;
+  }
+
+  .social-btn {
+    font-size: 15px;
+  }
+
+  .divider p {
+    font-size: 15px;
+  }
+
+  .switch-text {
+    margin-top: 28px;
+    font-size: 15px;
   }
 }

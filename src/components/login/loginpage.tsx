@@ -1,156 +1,232 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import "@/styles/loginpage.css";
 
-const LoginPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"signin" | "signup">("signin");
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log(`${activeTab} Data:`, formData);
-    // Yahan par aage API call hogi
-  };
+export default function LoginPage() {
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const isSignIn = mode === "signin";
 
   return (
-    <div className="login-wrapper">
-      
-      {/* Left Side - Image */}
-      <div className="left-section">
-        <img 
-          src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80" 
-          alt="Office Workspace" 
-          className="left-image" 
-        />
-        <div className="left-overlay">
-          <h2>Welcome to Taskflow</h2>
-          <p>Manage your tasks efficiently and effectively.</p>
+    <main className="login-page">
+      <section className="login-card">
+        <div className="login-left">
+          {/* Put your image inside public folder and update src here */}
+          <img
+            className="login-illustration"
+            src="/login-illustration.png"
+            alt={isSignIn ? "Sign in illustration" : "Sign up illustration"}
+          />
         </div>
-      </div>
 
-      {/* Right Side - Form */}
-      <div className="right-section">
-        <div className="form-container">
-          
-          <h1 className="form-title">
-            {activeTab === "signin" ? "Sign In" : "Sign Up"}
-          </h1>
-          <p className="form-subtitle">
-            {activeTab === "signin" 
-              ? "Login to your account" 
-              : "Create a new account"}
-          </p>
-
-          {/* Tab Switcher */}
-          <div className="tab-switcher">
-            <button 
-              className={`tab-btn ${activeTab === "signin" ? "active" : ""}`}
-              onClick={() => setActiveTab("signin")}
-              type="button"
-            >
-              Sign In
-            </button>
-            <button 
-              className={`tab-btn ${activeTab === "signup" ? "active" : ""}`}
-              onClick={() => setActiveTab("signup")}
-              type="button"
-            >
-              Sign Up
-            </button>
+        <div className="login-right">
+          <div className="form-box">
+            {isSignIn ? (
+              <SignInSection
+                onSwitch={() => setMode("signup")}
+                setMode={setMode}
+              />
+            ) : (
+              <SignUpSection
+                onSwitch={() => setMode("signin")}
+                setMode={setMode}
+              />
+            )}
           </div>
-
-          {/* Form */}
-          <form className="login-form" onSubmit={handleSubmit}>
-            
-            {/* Name - Sirf Signup me */}
-            {activeTab === "signup" && (
-              <div className="input-group">
-                <label htmlFor="name">Full Name</label>
-                <input 
-                  type="text" 
-                  id="name" 
-                  name="name" 
-                  placeholder="John Doe"
-                  value={formData.name} 
-                  onChange={handleChange} 
-                  required 
-                />
-              </div>
-            )}
-
-            {/* Email */}
-            <div className="input-group">
-              <label htmlFor="email">Email Address</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                placeholder="john@example.com"
-                value={formData.email} 
-                onChange={handleChange} 
-                required 
-              />
-            </div>
-
-            {/* Password */}
-            <div className="input-group">
-              <label htmlFor="password">Password</label>
-              <input 
-                type="password" 
-                id="password" 
-                name="password" 
-                placeholder="Enter your password"
-                value={formData.password} 
-                onChange={handleChange} 
-                required 
-              />
-            </div>
-
-            {/* Confirm Password - Sirf Signup me */}
-            {activeTab === "signup" && (
-              <div className="input-group">
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input 
-                  type="password" 
-                  id="confirmPassword" 
-                  name="confirmPassword" 
-                  placeholder="Confirm your password"
-                  value={formData.confirmPassword} 
-                  onChange={handleChange} 
-                  required 
-                />
-              </div>
-            )}
-
-            {/* Forgot Password - Sirf Signin me */}
-            {activeTab === "signin" && (
-              <div className="forgot-password">
-                <a href="#">Forgot Password?</a>
-              </div>
-            )}
-
-            {/* Submit Button */}
-            <button type="submit" className="submit-btn">
-              {activeTab === "signin" ? "Sign In" : "Create Account"}
-            </button>
-          </form>
-
         </div>
-      </div>
+      </section>
+    </main>
+  );
+}
 
+function SignInSection({
+  onSwitch,
+  setMode,
+}: {
+  onSwitch: () => void;
+  setMode: (mode: "signin" | "signup") => void;
+}) {
+  return (
+    <>
+      <h1>Sign In</h1>
+      <p className="subtitle">Welcome back! Please login to your account.</p>
+
+      <AuthTabs active="signin" setMode={setMode} />
+
+      <form>
+        <input type="email" placeholder="Email" />
+        <input type="password" placeholder="Password" />
+
+        <div className="form-options">
+          <label className="remember-me">
+            <input type="checkbox" />
+            <span>Remember me</span>
+          </label>
+
+          <a href="#" className="forgot-link">
+            Forgot Password?
+          </a>
+        </div>
+
+        <button type="submit" className="primary-btn">
+          Sign In
+        </button>
+      </form>
+
+      <SocialLogin title="Or Sign In with" action="Sign in" />
+
+      <p className="switch-text">
+        Don&apos;t have an account?{" "}
+        <button type="button" onClick={onSwitch}>
+          Sign Up
+        </button>
+      </p>
+    </>
+  );
+}
+
+function SignUpSection({
+  onSwitch,
+  setMode,
+}: {
+  onSwitch: () => void;
+  setMode: (mode: "signin" | "signup") => void;
+}) {
+  return (
+    <>
+      <h1>Sign Up</h1>
+      <p className="subtitle">Create your account to get started.</p>
+
+      <AuthTabs active="signup" setMode={setMode} />
+
+      <form>
+        <div className="name-row">
+          <input type="text" placeholder="First Name" />
+          <input type="text" placeholder="Last Name" />
+        </div>
+
+        <input type="email" placeholder="Email" />
+        <input type="password" placeholder="Password" />
+        <input type="password" placeholder="Confirm Password" />
+
+        <button type="submit" className="primary-btn">
+          Register
+        </button>
+      </form>
+
+      <SocialLogin title="Or Sign Up with" action="Sign up" />
+
+      <p className="switch-text">
+        Already have an account?{" "}
+        <button type="button" onClick={onSwitch}>
+          Sign In
+        </button>
+      </p>
+    </>
+  );
+}
+
+function AuthTabs({
+  active,
+  setMode,
+}: {
+  active: "signin" | "signup";
+  setMode: (mode: "signin" | "signup") => void;
+}) {
+  return (
+    <div className="auth-tabs">
+      <button
+        type="button"
+        className={active === "signin" ? "active" : ""}
+        onClick={() => setMode("signin")}
+      >
+        Sign In
+      </button>
+
+      <button
+        type="button"
+        className={active === "signup" ? "active" : ""}
+        onClick={() => setMode("signup")}
+      >
+        Sign Up
+      </button>
     </div>
   );
-};
+}
 
-export default LoginPage;
+function SocialLogin({
+  title,
+  action,
+}: {
+  title: string;
+  action: string;
+}) {
+  return (
+    <>
+      <div className="divider">
+        <span></span>
+        <p>{title}</p>
+        <span></span>
+      </div>
+
+      <div className="social-buttons">
+        <button type="button" className="social-btn">
+          <GoogleIcon />
+          <span>{action} with Google</span>
+        </button>
+
+        <button type="button" className="social-btn">
+          <GithubIcon />
+          <span>{action} with Github</span>
+        </button>
+
+        <button type="button" className="social-btn">
+          <MicrosoftIcon />
+          <span>{action} with Microsoft</span>
+        </button>
+      </div>
+    </>
+  );
+}
+
+function GoogleIcon() {
+  return (
+    <svg className="social-icon" viewBox="0 0 48 48" aria-hidden="true">
+      <path
+        fill="#FFC107"
+        d="M43.6 20.5H42V20H24v8h11.3C33.7 32.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.2-.1-2.4-.4-3.5z"
+      />
+      <path
+        fill="#FF3D00"
+        d="M6.3 14.7l6.6 4.8C14.6 15.1 19 12 24 12c3.1 0 5.8 1.2 8 3l5.7-5.7C34 6 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"
+      />
+      <path
+        fill="#4CAF50"
+        d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.1 35.1 26.6 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"
+      />
+      <path
+        fill="#1976D2"
+        d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C41 35.5 44 30.6 44 24c0-1.2-.1-2.4-.4-3.5z"
+      />
+    </svg>
+  );
+}
+
+function GithubIcon() {
+  return (
+    <svg className="social-icon github-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 .5A11.5 11.5 0 0 0 8.4 22.9c.6.1.8-.3.8-.6v-2.1c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2A11 11 0 0 1 12 6c1 0 2 .1 2.9.4 2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.1c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z" />
+    </svg>
+  );
+}
+
+function MicrosoftIcon() {
+  return (
+    <svg className="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#F35325" d="M2 2h9.5v9.5H2z" />
+      <path fill="#81BC06" d="M12.5 2H22v9.5h-9.5z" />
+      <path fill="#05A6F0" d="M2 12.5h9.5V22H2z" />
+      <path fill="#FFBA08" d="M12.5 12.5H22V22h-9.5z" />
+    </svg>
+  );
+}
