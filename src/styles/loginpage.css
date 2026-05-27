@@ -1,0 +1,737 @@
+/* ============================================
+   CSS Variables - Rang Palette
+   ============================================ */
+:root {
+  --bg-deep: #0a0f0d;
+  --bg-card: rgba(16, 24, 20, 0.72);
+  --bg-input: rgba(22, 34, 28, 0.6);
+  --border-card: rgba(52, 211, 153, 0.12);
+  --border-input: rgba(52, 211, 153, 0.18);
+  --border-input-focus: rgba(52, 211, 153, 0.55);
+  --accent: #34d399;
+  --accent-hover: #6ee7b7;
+  --accent-glow: rgba(52, 211, 153, 0.25);
+  --accent-deep: #059669;
+  --text-primary: #f0fdf4;
+  --text-secondary: #a7c4b8;
+  --text-muted: #5e7e6e;
+  --error: #f87171;
+  --error-bg: rgba(248, 113, 113, 0.08);
+  --error-border: rgba(248, 113, 113, 0.35);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-card: 0 8px 60px rgba(0, 0, 0, 0.5), 0 0 120px rgba(52, 211, 153, 0.04);
+}
+
+/* ============================================
+   Wrapper - Poora Screen
+   ============================================ */
+.login-wrapper {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--bg-deep);
+  padding: 24px;
+}
+
+/* ============================================
+   Animated Background
+   ============================================ */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+}
+
+.bg-orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(5, 150, 105, 0.35), transparent 70%);
+  top: -15%;
+  left: -10%;
+  animation: orbFloat1 14s ease-in-out infinite;
+}
+
+.bg-orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.2), transparent 70%);
+  bottom: -20%;
+  right: -8%;
+  animation: orbFloat2 18s ease-in-out infinite;
+}
+
+.bg-orb-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.15), transparent 70%);
+  top: 40%;
+  left: 50%;
+  animation: orbFloat3 12s ease-in-out infinite;
+}
+
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(80px, 50px) scale(1.1); }
+  66% { transform: translate(-40px, 80px) scale(0.95); }
+}
+
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-60px, -40px) scale(1.05); }
+  66% { transform: translate(50px, -70px) scale(0.9); }
+}
+
+@keyframes orbFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-80px, 40px) scale(1.15); }
+}
+
+/* Grid Pattern */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(52, 211, 153, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 211, 153, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+/* Noise Texture */
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ============================================
+   Floating Particles
+   ============================================ */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: particleFloat linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--particle-opacity, 0.3);
+  }
+  90% {
+    opacity: var(--particle-opacity, 0.3);
+  }
+  100% {
+    transform: translateY(-100vh) translateX(40px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   Login Card - Glassmorphism
+   ============================================ */
+.login-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg-card);
+  backdrop-filter: blur(40px) saturate(1.4);
+  -webkit-backdrop-filter: blur(40px) saturate(1.4);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-xl);
+  padding: 40px 36px 32px;
+  box-shadow: var(--shadow-card);
+  animation: cardEntry 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardEntry {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Card ke upar glow line */
+.login-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+  border-radius: 1px;
+}
+
+/* ============================================
+   Brand Header
+   ============================================ */
+.card-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.brand-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  color: var(--accent);
+  background: rgba(52, 211, 153, 0.08);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.brand-icon:hover {
+  transform: rotate(-8deg) scale(1.08);
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.brand-icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.brand-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  margin: 0 0 6px;
+}
+
+.brand-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+  min-height: 21px;
+  transition: opacity 0.3s ease;
+}
+
+/* ============================================
+   Tab Switcher
+   ============================================ */
+.tab-switcher {
+  display: flex;
+  background: var(--bg-input);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  margin-bottom: 28px;
+  position: relative;
+  border: 1px solid rgba(52, 211, 153, 0.08);
+}
+
+.tab-btn {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  border-radius: var(--radius-sm);
+  transition: color 0.3s ease;
+  z-index: 1;
+}
+
+.tab-btn:hover {
+  color: var(--text-secondary);
+}
+
+.tab-btn.tab-active {
+  color: var(--bg-deep);
+}
+
+.tab-indicator {
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  z-index: -1;
+  animation: tabSlide 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 12px var(--accent-glow);
+}
+
+@keyframes tabSlide {
+  from {
+    transform: scaleX(0.6) scaleY(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scaleX(1) scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   Form Fields
+   ============================================ */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field-group {
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, margin 0.3s ease;
+}
+
+.field-visible {
+  max-height: 80px;
+  opacity: 1;
+  margin: 0;
+}
+
+.field-hidden {
+  max-height: 0;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+}
+
+.login-input {
+  width: 100%;
+  padding: 13px 14px 13px 44px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.login-input::placeholder {
+  color: var(--text-muted);
+}
+
+.login-input:hover {
+  border-color: rgba(52, 211, 153, 0.3);
+}
+
+.login-input:focus {
+  border-color: var(--border-input-focus);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+  background: rgba(22, 34, 28, 0.8);
+}
+
+.login-input:focus ~ .input-icon,
+.login-input:focus + .input-icon {
+  color: var(--accent);
+}
+
+/* Input wrapper ke andar icon ko focus style */
+.input-wrapper:focus-within .input-icon {
+  color: var(--accent);
+}
+
+.login-input.input-error {
+  border-color: var(--error-border);
+  background: var(--error-bg);
+}
+
+.login-input.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15);
+}
+
+.error-msg {
+  display: block;
+  color: var(--error);
+  font-size: 12px;
+  margin-top: 5px;
+  padding-left: 4px;
+  animation: errorShake 0.4s ease;
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(2px); }
+}
+
+/* Toggle Password Button */
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background 0.2s;
+}
+
+.toggle-password:hover {
+  color: var(--text-secondary);
+  background: rgba(52, 211, 153, 0.06);
+}
+
+.toggle-password svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ============================================
+   Forgot Password Row
+   ============================================ */
+.forgot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: -4px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-secondary);
+  user-select: none;
+}
+
+.remember-me input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border-input);
+  border-radius: 5px;
+  background: var(--bg-input);
+  position: relative;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.remember-me input:checked + .checkmark {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.remember-me input:checked + .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--bg-deep);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.forgot-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: color 0.2s;
+}
+
+.forgot-link:hover {
+  color: var(--accent-hover);
+}
+
+/* ============================================
+   Submit Button
+   ============================================ */
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent-deep), var(--accent));
+  color: var(--bg-deep);
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  margin-top: 4px;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px var(--accent-glow), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.submit-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.submit-btn:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+/* Button shine effect */
+.submit-btn::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
+.submit-btn:hover::after {
+  left: 125%;
+}
+
+/* Loading Spinner */
+.btn-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  animation: spinRotate 1.2s linear infinite;
+}
+
+.spinner-track {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.15);
+  stroke-width: 3;
+}
+
+.spinner-head {
+  fill: none;
+  stroke: var(--bg-deep);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 50 200;
+  stroke-dashoffset: 0;
+  animation: spinDash 1.2s ease-in-out infinite;
+}
+
+@keyframes spinRotate {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spinDash {
+  0% { stroke-dashoffset: 50; }
+  50% { stroke-dashoffset: 15; }
+  100% { stroke-dashoffset: 50; }
+}
+
+/* ============================================
+   Divider
+   ============================================ */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 24px 0 20px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-input), transparent);
+}
+
+.divider-text {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+}
+
+/* ============================================
+   Social Buttons
+   ============================================ */
+.social-row {
+  display: flex;
+  gap: 12px;
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 12px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-input);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+}
+
+.social-btn:hover {
+  border-color: rgba(52, 211, 153, 0.35);
+  background: rgba(22, 34, 28, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.social-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.card-footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 24px 0 0;
+}
+
+.switch-link {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.switch-link:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 28px 22px 24px;
+    border-radius: var(--radius-lg);
+  }
+
+  .brand-title {
+    font-size: 24px;
+  }
+
+  .social-row {
+    flex-direction: column;
+  }
+}
+
+/* ============================================
+   Reduced Motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .bg-orb,
+  .particle,
+  .tab-indicator,
+  .login-card {
+    animation: none !important;
+  }
+
+  .submit-btn::after {
+    display: none;
+  }
+
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
