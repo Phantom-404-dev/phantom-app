@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { MoonStar, SunMedium } from "lucide-react";
 import "@/styles/loginpage.css";
 
@@ -17,28 +17,17 @@ export default function LoginPage() {
 
   return (
     <main className={`login-page ${isNight ? "night-mode" : "day-mode"}`}>
-      <section className="login-left">
-        {/* Put your image inside public folder and update src here */}
-        <img
-          className="login-illustration"
-          src="/logo/ledtimg.png"
-          alt={isSignIn ? "Sign in illustration" : "Sign up illustration"}
-        />
-      </section>
+      <section className="login-card">
+        <div className="login-left">
+          {/* Put your image inside public folder and update src here */}
+          <img
+            className="login-illustration"
+            src="/login-illustration.png"
+            alt={isSignIn ? "Sign in illustration" : "Sign up illustration"}
+          />
+        </div>
 
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={theme}
-          className={`theme-bg ${theme}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.45, ease: "easeInOut" }}
-        />
-      </AnimatePresence>
-
-      <section className="login-right">
-        <div className="auth-card">
+        <div className="login-right">
           <ThemeToggle theme={theme} setTheme={setTheme} />
 
           <div className="form-box">
@@ -88,7 +77,6 @@ function ThemeToggle({
             key={theme}
             initial={{ rotate: -90, scale: 0.45, opacity: 0 }}
             animate={{ rotate: 0, scale: 1, opacity: 1 }}
-            exit={{ rotate: 90, scale: 0.45, opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
             {isNight ? (
